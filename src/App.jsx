@@ -19,11 +19,6 @@ function App() {
   const [approved, setApproved] = useState('');
   const [notices, setNotices] = useState('');
 
-  const [signatureData1, setSignatureData1] = useState('');
-  const [signatureData2, setSignatureData2] = useState('');
-  const [printedName1, setPrintedName1] = useState('');
-  const [printedName2, setPrintedName2] = useState('');
-
   const onBothSignaturesSubmit = async (sigData1, printName1, sigData2, printName2) => {
     // Check if we have all the necessary information to generate the PDF
     if (projectName && clientCompany && approved && sigData1 && sigData2) {
@@ -56,7 +51,7 @@ function App() {
 
   const generatePdfWithFormData = async (formData, sigData1, printedName1, sigData2, printedName2) => {
     // Fetch the PDF template from the public directory
-    const response = await fetch('/template2.pdf');
+    const response = await fetch('/template.pdf');
     const arrayBuffer = await response.arrayBuffer();
     const pdfDoc = await PDFDocument.load(arrayBuffer);
 
@@ -64,8 +59,6 @@ function App() {
     const signatureImage2 = await pdfDoc.embedPng(sigData2);
     const page = pdfDoc.getPages()[0];
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
-    console.log(page.getHeight());
 
     // Function to draw text at specified positions
     const drawText = async (text, x, y) => {
